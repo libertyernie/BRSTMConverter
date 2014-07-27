@@ -11,7 +11,7 @@ namespace BRSTMConverter.MusicClasses {
 		public Vgmstream(string input) : base(input) {
 			try {
 				Process check = new VgmstreamProcess();
-				check.StartInfo.Arguments = "-m " + input;
+				check.StartInfo.Arguments = "-m \"" + input + "\"";
 				check.StartInfo.UseShellExecute = false;
 				check.StartInfo.RedirectStandardOutput = true;
 				check.Start();

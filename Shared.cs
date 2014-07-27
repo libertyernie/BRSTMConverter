@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BRSTMConverter {
     public class Shared {
-        public const String PROGRAM_TITLE="BRSTM Converter 3.4";
+        public const String PROGRAM_TITLE="BRSTM Converter 3.4.1";
 	
 	    public const String DEFAULT_LOOP_TXT = "loop.txt";
 	
