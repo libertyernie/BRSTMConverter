@@ -1,0 +1,6 @@
+Get the DLL from: http://code.google.com/p/ossbuild/source/browse/trunk/Shared/Build/Windows/Win32/bin/libmp3lame-0.dll
+(click "view raw file")
+
+Put it in the tools/sox folder and name it libmp3lame.dll.
+
+If you do this, BRSTM Converter will be able to output MP3 files.

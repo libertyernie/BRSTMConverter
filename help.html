@@ -1,0 +1,70 @@
+<!DOCTYPE html />
+<html>
+<head>
+<title>BRSTM Converter C#</title>
+<style>
+p {
+margin: 8px 0 8px 0;
+font-weight: normal;
+font-size: 10pt;
+font-family: Verdana, DejaVu Sans, sans-serif;
+}
+.bb {
+color: blue;
+font-weight: normal;
+}
+</style>
+</head>
+<body>
+<p>Options available in BRSTM Converter C&#9839;<br/>
+<i><a href="#filesize">Filesize options</a> &mdash; <a href="#volume">Volume options</a> &mdash;
+<a href="#looping">Looping options</a> &mdash; <a href="#format">Format options</a> &mdash;
+<a href="#other">Other options</a></i></p>
+
+<hr/><p><b><a name="filesize"/>Filesize options:</b></p>
+<p><span class=bb>Convert to mono:</span> combines the channels into one, while keeping the overall volume.
+For an uncompressed stereo file, converting to mono will cut the filesize in half.</p>
+<p><span class=bb>Abjust to absolute rate:</span> converts the selected files to the "default rate" specified,
+unless their current rate is equal or less. (Raising the sample rate would increase
+filesize but not quality.)</p>
+<p><span class=bb>Factor of:</span> converts the selected files to a lower sample rate,
+equal to the current rate times the number entered (must be between 0 and 1.)
+For example, entering 0.5 in this field would cut the sample rate in half.</p>
+<p><span class=bb>Default rate:</span> sets the sample rate used for rendering VGM files. It also sets the rate
+that files will be converted to if adjust to absolute rate is checked.</p>
+<p><span class=bb>Don't go below [number]:</span> don't change the sample rate of the source file if the new rate
+would be below the given number. This can be used when adjusting the rate by a factor.</p>
+
+<hr/><p><b><a name="volume"/>Volume options:</b></p>
+<p><span class=bb>Adjustment in dB:</span> Makes the audio louder or quieter by the given amount of decibels.</p>
+<p><span class=bb>Factor of:</span> Takes an factor by which to amplify the audio. For example,
+a value of 2.0 would double the amplitude while a value of 0.5 would cut it in half.</p>
+
+<hr/><p><b><a name="looping"/>Looping options:</b></p>
+<p>For looping inputs, such as BRSTM or .hps, the original loop points will be preserved.
+This option applies only to non-looping input files such as .wav and .mp3.</p>
+<p><span class=bb>Loop start to end:</span> If chosen, Rate Converter will loop normally non-looping input
+formats, such as FLAC and MP3.</p>
+<p><span class=bb>Ask every time:</span> For BRSTM output format only. This option will display
+the BrawlLib conversion dialog to ask for loop points for each BRSTM built.</p>
+<p>No matter what is selected, the program will first look for a file called loop.txt,
+which should contain information in the format:</p>
+<p><span color=red>loopStart loopEnd filename_here.[wav,flac,ogg]</span></p>
+<p>For example:</p>
+<p><span color=red>86016 1743439 Lava Reef Zone Act 1.wav</span></p>
+<p>If loop.txt has information for a particular file, that will override the value of this drop-down list.</p>
+
+<hr/><p><b><a name="format"/>Format options:</b></p>
+<p><span class=bb>Output as:</span> changes the output format. BRSTM (the format used in Super Smash Bros.
+Brawl) is the default, but the program can also make output files in Ogg Vorbis, .logg
+(looping Ogg), FLAC or WAV formats. If libmp3lame.dll is present in the tools/sox folder,
+you can output to MP3 as well. You can get libmp3lame.dll from:
+<a href="http://code.google.com/p/ossbuild/source/browse/trunk/Shared/Build/Windows/Win32/bin/libmp3lame-0.dll" target="_blank">http://code.google.com/p/ossbuild/source/browse/trunk/ Shared/Build/Windows/Win32/bin/libmp3lame-0.dll</a><br />
+If you enter your own value into this box, BRSTM Converter will attempt to use SoX to
+convert the file to that format.
+<a href="http://sox.sourceforge.net/Docs/Features" target="_blank">(See also: SoX supported formats)</a></p>
+
+<hr/><p><b><a name="other"/>Other options:</b></p>
+<p><span class=bb>show SoX:</span> If checked, command-line windows will appear showing the progress of
+the command-line tools used to process the audio. If unchecked, these windows will not appear.</p>
+</body></html>
