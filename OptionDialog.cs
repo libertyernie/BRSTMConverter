@@ -15,7 +15,6 @@ namespace BRSTMConverter
 	public partial class OptionDialog : Form {
 		private const string LOOP = "Loop start to end";
 		private const string LOOP_NONE = "Don't loop";
-		private const string LOOP_ASK = "Ask every time (BRSTM only)";
 
 		public OptionDialog() {
 			InitializeComponent();
@@ -24,7 +23,6 @@ namespace BRSTMConverter
 			this.comboBox1.SelectedIndex = 0;
 			this.loop.Items.Add(LOOP);
 			this.loop.Items.Add(LOOP_NONE);
-			this.loop.Items.Add(LOOP_ASK);
 			this.loop.SelectedIndex = 0;
 		}
 
@@ -33,11 +31,9 @@ namespace BRSTMConverter
 			os.convertToMono = mono.Checked;
 			string loop = this.loop.Text;
 			if (loop == LOOP) {
-				os.loopWav = OptionSet.LOOP;
+				os.loopWav = true;
 			} else if (loop == LOOP_NONE) {
-				os.loopWav = OptionSet.LOOP_NONE;
-			} else {
-				os.loopWav = OptionSet.LOOP_ASK;
+				os.loopWav = false;
 			}
 			if (no_amp.Checked) {
 				os.ampType = OptionSet.NO_AMP;

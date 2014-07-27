@@ -43,13 +43,10 @@ namespace BRSTMConverter
 	    public const int DB_TYPE = 2;
 	    public const int MAX_AMP_WITHOUT_CLIPPING = 3;
 
-		public const int LOOP = 0;
-		public const int LOOP_NONE = -1;
-		public const int LOOP_ASK = -2;
 	    /**
 	     * Whether to loop WAV/FLAC/OGG files that are not listed in loop.txt from start to end.
 	     */
-        public int loopWav { get; set; }
+        public bool loopWav { get; set; }
         public int minimumRate { get; set; }
 
 	    public string loopTxt { get; set; }
@@ -71,10 +68,8 @@ namespace BRSTMConverter
 			    sb += ("maximum amplification without clipping, ");
 		    }
 		    if (minimumRate > 0) sb += ("minimum rate " + minimumRate + ", ");
-		    if (loopWav == LOOP) {
+		    if (loopWav) {
 			    sb += ("loop WAVs not in " + loopTxt + ", ");
-		    } else if (loopWav == LOOP_ASK) {
-			    sb += ("ask to loop WAVs not in " + loopTxt + ", ");
 		    } else {
 			    sb += ("don't loop WAVs not in " + loopTxt + ", ");
 		    }
@@ -96,7 +91,7 @@ namespace BRSTMConverter
 		    rateFactor = 1.0;
 		    ampAmount = 1.0;
 		    ampType = NO_AMP;
-		    loopWav = LOOP;
+		    loopWav = true;
 		    minimumRate = 0; // default should not be used except to check if one has been defined
             loopTxt = "loop.txt";
 		    outputFormat = OutputFormat.array[0];

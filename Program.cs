@@ -9,10 +9,11 @@ using BRSTMConverter.OutputFormats;
 namespace BRSTMConverter {
     static class Program {
         [STAThread]
-        static int Main(String[] args) {
+		static int Main(String[] args) {
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+			System.Environment.CurrentDirectory = System.Windows.Forms.Application.StartupPath;
 
             if (!Directory.Exists(Shared.TMP_DIR)) {
                 if (File.Exists(Shared.TMP_DIR)) {
@@ -102,11 +103,9 @@ namespace BRSTMConverter {
 						        Console.Error.WriteLine(args[i] + " is not a number.");
 					        }
 				        } else if (args[i] == ("-loop")) {
-					        opts.loopWav = 0;
+					        opts.loopWav = true;
 				        } else if (args[i] == ("-noloop")) {
-							opts.loopWav = -1;
-						} else if (args[i] == ("-ask")) {
-							opts.loopWav = -2;
+							opts.loopWav = false;
 				        } else if ((first == 'l') && (args[i].Count() == 2)) {
 					        i++; // Next argument - it should be a filename
 					        if (File.Exists(args[i])) {
@@ -155,11 +154,6 @@ namespace BRSTMConverter {
                 }
             }
 
-			// LOOP_ASK (-2) only works with BrstmOutputFormat
-			if (opts.loopWav == OptionSet.LOOP_ASK && !(opts.outputFormat is BrstmOutputFormat)) {
-				opts.loopWav = OptionSet.LOOP;
-			}
-
             if ((inputFiles == null) || (inputFiles.Count() == 0)) {
                 OpenFileDialog ofd = new OpenFileDialog();
 				ofd.Filter = FileExtensions.AllFilter
@@ -167,6 +161,7 @@ namespace BRSTMConverter {
                     + "|" + FileExtensions.VgmstreamFilter
                     + "|" + FileExtensions.VgmFilter
                     + "|" + "All files (*.*)|*.*";
+				ofd.FilterIndex = 5;
                 ofd.Multiselect = true;
                 DialogResult dr = ofd.ShowDialog();
 				if (dr != DialogResult.OK) {
@@ -179,12 +174,7 @@ namespace BRSTMConverter {
 				Directory.CreateDirectory(Shared.OUTPUT_DIR);
 			}
 
-			LoopTxtReader loopReader;
-			try {
-				loopReader = new LoopTxtReader(opts.loopTxt);
-			} catch (Exception) {
-				loopReader = new LoopTxtReader(); // Make an empty LoopTxtReader that returns the defaults for all songs
-			}
+			LoopTxtReader userDefinedLoops = new LoopTxtReader(opts.loopWav, opts.loopTxt);
 
 			// This array will be used for input files
 			Music[] inputMusics = new Music[inputFiles.Count()];
@@ -195,11 +185,9 @@ namespace BRSTMConverter {
 			for (int i = 0; i < inputMusics.Count(); i++) {
 				file = inputFiles[i];
 				String ext = file.Substring(file.LastIndexOf('.') + 1).ToLower();
-				if (FileExtensions.SOX.Contains(ext)) {
-					SoX w = new SoX(inputFiles[i]);
-					loopReader.setLoops(w, opts.loopWav); // Will run setLoop as appropriate
-					inputMusics[i] = w;
-				} else if (FileExtensions.VGM.Contains(ext)) {
+				if (FileExtensions.SOX_ro.Contains(ext)) {
+					inputMusics[i] = new SoX(inputFiles[i], userDefinedLoops);
+				} else if (FileExtensions.VGM_ro.Contains(ext)) {
 					inputMusics[i] = new VGM(inputFiles[i], opts.defaultRate);
 				} else {
 					// handled by vgmstream

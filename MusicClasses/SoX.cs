@@ -9,8 +9,12 @@ using BRSTMConverter.OutputFormats;
 
 namespace BRSTMConverter.MusicClasses {
 	public class SoX : Music {
-		public SoX(string input) : base(input) {
+		public SoX(string input, LoopTxtReader userDefinedLoops) : base(input) {
 			readValuesWithSox();
+
+			int start, end;
+			userDefinedLoops.loopsFor(input, out start, out end);
+			setLoop(start, end);
 		}
 
 		public override void convertToWav() {

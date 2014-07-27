@@ -17,23 +17,13 @@ namespace BRSTMConverter.OutputFormats {
 
 		public override void build(Form parent, IProgressTracker tracker, string tmpwav, string output, bool looping, int loopStart, int length, bool loopTrim) {
 			FileMap audioData;
-			if (loopStart == -2) {
-				BrstmConverterDialog bcd = new BrstmConverterDialog();
-				bcd.AudioSource = tmpwav;
-				bcd.ShowDialog(parent);
-				if (bcd.DialogResult != DialogResult.OK) {
-					throw new MusicFileException("Build cancelled.");
-				}
-				audioData = bcd.AudioData;
-			} else {
-				IAudioStream audioStream = WAV.FromFile(tmpwav);
-				audioStream.IsLooping = looping;
-				audioStream.LoopStartSample = loopStart;
-				audioStream.LoopEndSample = length;
-				//if (tracker == null) tracker = new ProgressWindow(parent, Shared.PROGRAM_TITLE, "Encoding, please wait...", false);
-				audioData = RSTMConverter.Encode(audioStream, tracker);
-				audioStream.Dispose();
-			}
+			IAudioStream audioStream = WAV.FromFile(tmpwav);
+			audioStream.IsLooping = looping;
+			audioStream.LoopStartSample = loopStart;
+			audioStream.LoopEndSample = length;
+			//if (tracker == null) tracker = new ProgressWindow(parent, Shared.PROGRAM_TITLE, "Encoding, please wait...", false);
+			audioData = RSTMConverter.Encode(audioStream, tracker);
+			audioStream.Dispose();
 			FileMapWriter.write(audioData, output, FileMode.Create);
 			audioData.Dispose();
 		}

@@ -10,18 +10,14 @@ namespace BRSTMConverter {
 		private List<string> filenames;
 		private List<int> loopStarts;
 		private List<int> loopEnds;
+		private bool loopDefault;
 
-		public LoopTxtReader() {
+		public LoopTxtReader(bool loopDefault, string filename = null) {
 			filenames = new List<string>();
 			loopStarts = new List<int>();
 			loopEnds = new List<int>();
-		}
-
-		public LoopTxtReader(string filename) {
-			filenames = new List<string>();
-			loopStarts = new List<int>();
-			loopEnds = new List<int>();
-			if (File.Exists(filename)) {
+			this.loopDefault = loopDefault;
+			if (filename != null && File.Exists(filename)) {
 				StreamReader reader = new StreamReader(filename);
 				string line = reader.ReadLine();
 				while (line != null) {
@@ -60,16 +56,14 @@ namespace BRSTMConverter {
 			return s;
 		}
 
-		public void setLoops(SoX b, int loopType) {
-			setLoops(b, Path.GetFileName(b.Input), loopType);
-		}
-
-		public void setLoops(SoX b, String original_filename, int loopType) {
-			int index = filenames.IndexOf(original_filename);
+		public void loopsFor(string original_filename, out int loopStart, out int loopEnd) {
+			int index = filenames.IndexOf(Path.GetFileName(original_filename));
 			if ((index > -1) && (loopStarts[index] > -1)) {
-				b.setLoop(loopStarts[index], loopEnds[index]);
+				loopStart = loopStarts[index];
+				loopEnd = loopEnds[index];
 			} else {
-				b.setLoop(loopType, -1);
+				loopStart = loopDefault ? 0 : -1;
+				loopEnd = -1;
 			}
 		}
 

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BRSTMConverter {
     public class Shared {
-        public const String PROGRAM_TITLE="BRSTM Converter 3.4.1";
+        public const String PROGRAM_TITLE="BRSTM Converter 3.5.1";
 	
 	    public const String DEFAULT_LOOP_TXT = "loop.txt";
 	
@@ -18,14 +18,6 @@ namespace BRSTMConverter {
 	    public static String VGMPLAY_DIR = TOOLS_DIR + Path.DirectorySeparatorChar + "VGMPlay";
 		public static String VORBIS_TOOLS_DIR = TOOLS_DIR + Path.DirectorySeparatorChar + "vorbis-tools";
 	    public const String TMP_DIR = "tmp";
-
-	    public static bool isDspadpcmAvailable() {
-		    return false;
-	    }
-
-	    public static bool isSbbAvailable() {
-		    return true;
-	    }
 
 		public static bool isVorbisCommentAvailable() {
 			return File.Exists(VORBIS_TOOLS_DIR + Path.DirectorySeparatorChar + "vorbiscomment.exe");
@@ -52,7 +44,6 @@ namespace BRSTMConverter {
 	    /// </summary>
 	    /// <param name="s">The message to display.</param>
 	    public static void errorDialog(String s) {
-		    //JOptionPane.showMessageDialog(null, s, PROGRAM_TITLE, JOptionPane.ERROR_MESSAGE);
             MessageBox.Show(s);
 	    }
 
